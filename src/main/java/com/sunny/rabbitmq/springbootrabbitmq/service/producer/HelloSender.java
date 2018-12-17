@@ -30,8 +30,8 @@ public class HelloSender {
     private AmqpTemplate amqpTemplate;
 
     public void sendMessage(String msg){
-        String sendMsg = msg+"\t"+ ConstantsUtils.SDF.format(new Date());
-        log.info("HelloSender:{}", sendMsg);
-        amqpTemplate.convertAndSend("helloQueue",sendMsg);
+        log.info("HelloSender发送时间:"+ConstantsUtils.SDF.format(new Date())+"\t发送时间:"+msg);
+        amqpTemplate.convertAndSend("helloQueue",msg);
     }
+
 }

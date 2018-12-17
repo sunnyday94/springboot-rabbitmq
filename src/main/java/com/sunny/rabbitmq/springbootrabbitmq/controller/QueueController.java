@@ -33,4 +33,13 @@ public class QueueController {
         return "消息已发送!";
     }
 
+
+    @GetMapping(value="oneToMany")
+    public String onToMany(){
+        for(int i=1;i<=10;i++){
+            helloSender1.sendMessage("hello"+i);
+        }
+        return "消息已发送";
+    }
+
 }
