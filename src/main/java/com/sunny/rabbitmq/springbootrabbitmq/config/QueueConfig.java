@@ -35,13 +35,13 @@ public class QueueConfig {
 
     //===============以下是验证topic Exchange的队列==========
     @Bean
-    public Queue queueMessage1() {
-        return new Queue("topic.message1");
+    public Queue queueMessage() {
+        return new Queue("topic.message");
     }
 
     @Bean
-    public Queue queueMessage2() {
-        return new Queue("topic.message2");
+    public Queue queueMessages() {
+        return new Queue("topic.messages");
     }
     //===============以上是验证topic Exchange的队列==========
 
@@ -83,16 +83,26 @@ public class QueueConfig {
         return new DirectExchange("directExchange");
     }
 
+    /**
+     * 将队列topic.message与exchange绑定，binding_key为topic.message,就是完全匹配
+     * @param queueMessage
+     * @param exchange
+     * @return
+     */
+    @Bean
+    Binding bindingExchangeMessage(Queue queueMessage, TopicExchange exchange) {
+        return BindingBuilder.bind(queueMessage).to(exchange).with("topic.message");
+    }
 
     /**
      * 将队列topic.messages与exchange绑定，binding_key为topic.#,模糊匹配
-     * @param queueMessage2
+     * @param queueMessages
      * @param topicExchange
      * @return
      */
     @Bean
-    public Binding bindingExchangeMessages(Queue queueMessage2, TopicExchange topicExchange) {
-        return BindingBuilder.bind(queueMessage2).to(topicExchange).with("topic.#");
+    public Binding bindingExchangeMessages(Queue queueMessages, TopicExchange topicExchange) {
+        return BindingBuilder.bind(queueMessages).to(topicExchange).with("topic.#");
     }
 
 
@@ -112,8 +122,13 @@ public class QueueConfig {
     }
 
     @Bean
-    public Binding bindingDirectExchange(Queue helloQueue,DirectExchange directExchange){
+    public Binding bindingHelloDirectExchange(Queue helloQueue,DirectExchange directExchange){
         return BindingBuilder.bind(helloQueue).to(directExchange).with("helloQueue");
+    }
+
+    @Bean
+    public Binding bindingUserDirectExchange(Queue userQueue,DirectExchange directExchange){
+        return BindingBuilder.bind(userQueue).to(directExchange).with("userQueue");
     }
 
 }

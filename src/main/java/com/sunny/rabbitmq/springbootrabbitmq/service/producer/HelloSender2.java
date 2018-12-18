@@ -1,7 +1,7 @@
 /**
- * FileName: HelloSender1
+ * FileName: HelloSender2
  * Author:   sunny
- * Date:     2018/12/14 11:43
+ * Date:     2018/12/18 14:12
  * History:
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
@@ -19,19 +19,17 @@ import java.util.Date;
 /**
  * @description
  * @author sunny
- * @create 2018/12/14
+ * @create 2018/12/18
  * @since 1.0.0
  */
 @Component
 @Slf4j
-public class HelloSender {
-
+public class HelloSender2 {
     @Autowired
     private AmqpTemplate amqpTemplate;
 
     public void sendMessage(String msg){
-        log.info("HelloSender发送时间:"+ConstantsUtils.SDF.format(new Date())+"\t发送消息:"+msg);
+        log.info("HelloSender发送时间:"+ ConstantsUtils.SDF.format(new Date())+"\t发送消息:"+msg);
         amqpTemplate.convertAndSend("helloQueue",msg);
     }
-
 }
