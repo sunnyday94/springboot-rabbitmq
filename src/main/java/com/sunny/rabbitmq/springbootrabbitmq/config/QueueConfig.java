@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class QueueConfig {
-    //以下创建队列
+    //================以下创建队列===================
     @Bean
     public Queue helloQueue(){
         return new Queue("helloQueue");
@@ -67,7 +67,14 @@ public class QueueConfig {
 
 
 
-    //创建交换机
+
+    //================以上创建队列===================
+
+
+
+
+
+    //===============以下创建交换机================
 
     @Bean
     public TopicExchange exchange() {
@@ -82,6 +89,14 @@ public class QueueConfig {
     public DirectExchange directExchange(){
         return new DirectExchange("directExchange");
     }
+
+    //===============以上创建交换机================
+
+
+
+
+
+    //===============以下是交换机绑定队列=============
 
     /**
      * 将队列topic.message与exchange绑定，binding_key为topic.message,就是完全匹配
@@ -130,5 +145,7 @@ public class QueueConfig {
     public Binding bindingUserDirectExchange(Queue userQueue,DirectExchange directExchange){
         return BindingBuilder.bind(userQueue).to(directExchange).with("userQueue");
     }
+
+    //===============以上是交换机绑定队列=============
 
 }
