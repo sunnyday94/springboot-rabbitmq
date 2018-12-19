@@ -38,7 +38,7 @@ public class CallBackSender implements RabbitTemplate.ConfirmCallback {
         myRabbitTemplate.convertAndSend("topicExchange", "topic.messages", msg, correlationData);
     }
 
-    //确认消费者是否消费了
+    //消息服务器确认收到了消息
     @Override
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
         log.info("callbakck confirm:{}", correlationData.getId());
