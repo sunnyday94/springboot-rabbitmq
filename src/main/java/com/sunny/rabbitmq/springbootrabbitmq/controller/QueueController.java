@@ -10,6 +10,7 @@ package com.sunny.rabbitmq.springbootrabbitmq.controller;
 
 import com.sunny.rabbitmq.springbootrabbitmq.service.producer.HelloSender;
 import com.sunny.rabbitmq.springbootrabbitmq.service.producer.HelloSender2;
+import com.sunny.rabbitmq.springbootrabbitmq.service.producer.TopicSender;
 import com.sunny.rabbitmq.springbootrabbitmq.service.producer.UserSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +37,9 @@ public class QueueController {
 
     @Autowired
     private UserSender userSender;
+
+    @Autowired
+    private TopicSender topicSender;
 
     @GetMapping(value="hello")
     public String hello(){
@@ -66,6 +70,13 @@ public class QueueController {
     @GetMapping(value="sendUser")
     public String sendUser(){
         userSender.sendUser();
+        return "消息已发送";
+    }
+
+
+    @GetMapping(value="testTopic")
+    public String testTopic(){
+        topicSender.sendMessage();
         return "消息已发送";
     }
 
