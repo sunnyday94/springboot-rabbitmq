@@ -26,6 +26,6 @@ public class TopicReciver {
 
     @RabbitHandler
     public void process(String msg){
-        log.info("TopicReciver:{}",msg);
+        log.info("TopicReciver(topic.message):{}",msg);
     }
 }

@@ -41,6 +41,9 @@ public class QueueController {
     @Autowired
     private FanoutSender fanoutSender;
 
+    @Autowired
+    private CallBackSender callBackSender;
+
     @GetMapping(value="hello")
     public String hello(){
         helloSender1.sendMessage("hello1");
@@ -84,6 +87,18 @@ public class QueueController {
     @GetMapping(value="testFanout")
     public String testFanout(){
         fanoutSender.sendMessage();
+        return "消息已发送";
+    }
+
+
+    /**
+     * @Description: 带callback的消息发送
+     * @Author: sunny
+     * @Date: 2018/12/19 17:11
+     */
+    @GetMapping(value="testCallBack")
+    public String testCallBack(){
+        callBackSender.sendMessage();
         return "消息已发送";
     }
 
