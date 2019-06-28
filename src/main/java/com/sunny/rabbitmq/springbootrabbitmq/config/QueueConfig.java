@@ -21,6 +21,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class QueueConfig {
     //================以下创建队列===================
+
+
+    //=========以下是验证direct Exchange的队列===============
     @Bean
     public Queue helloQueue(){
         return new Queue("helloQueue");
@@ -30,6 +33,7 @@ public class QueueConfig {
     public Queue userQueue(){
         return new Queue("userQueue");
     }
+    //=========以上是验证direct Exchange的队列================
 
 
 
