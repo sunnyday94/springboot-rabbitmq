@@ -16,12 +16,15 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @description
  * @author sunny
  * @create 2018/12/19
  * @since 1.0.0
  */
+@Slf4j
 public class RabbitConfig {
 
     @Value("${spring.rabbitmq.host}")
@@ -42,6 +45,9 @@ public class RabbitConfig {
     @Value("${spring.rabbitmq.publisher-confirms}")
     private boolean publisherConfirms;
 
+    @Value("${spring.rabbitmq.publisher-returns}")
+    private boolean publisherReturns;
+
     @Bean
     public ConnectionFactory connectionFactory() {
 
@@ -50,8 +56,13 @@ public class RabbitConfig {
         connectionFactory.setUsername(username);
         connectionFactory.setPassword(password);
         connectionFactory.setVirtualHost(virtualHost);
-        /** 如果要进行消息回调，则这里必须要设置为true */
+        //confirm保证达到交换机，return保证交换机到达队列
+        /*如果消息没有到exchange,则confirm回调,ack=false；
+          如果消息到达exchange,则confirm回调,ack=true；*/
         connectionFactory.setPublisherConfirms(publisherConfirms);
+        /*exchange到queue成功,则不回调return
+          exchange到queue失败,则回调return(需设置mandatory=true,否则不会回调,消息就丢了)*/
+        connectionFactory.setPublisherReturns(true);
         return connectionFactory;
     }
 
@@ -60,6 +71,9 @@ public class RabbitConfig {
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     public RabbitTemplate myRabbitTemplate() {
         RabbitTemplate template = new RabbitTemplate(connectionFactory());
+        template.setMandatory(true);
+        template.setConfirmCallback((correlationData, ack, cause) -> log.info("消息发送成功:correlationData({}),ack({}),cause({})", correlationData, ack, cause));
+        template.setReturnCallback((message, replyCode, replyText, exchange, routingKey) -> log.info("消息丢失:exchange({}),route({}),replyCode({}),replyText({}),message:{}", exchange, routingKey, replyCode, replyText, message));
         return template;
     }
 
