@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+import javax.annotation.Resource;
+
 /**
  * @description
  * @author sunny
@@ -24,24 +26,24 @@ import java.util.UUID;
  */
 @Component
 @Slf4j
-public class CallBackSender implements RabbitTemplate.ConfirmCallback {
+public class CallBackSender /*implements RabbitTemplate.ConfirmCallback */{
 
-    @Autowired
-    private RabbitTemplate myRabbitTemplate;
+    @Resource
+    private RabbitTemplate rabbitTemplate;
 
     public void sendMessage() {
-        myRabbitTemplate.setConfirmCallback(this);
+//        myRabbitTemplate.setConfirmCallback(this);
         String msg="callbackSender : I am callback sender";
         log.info("CallBackSender:{}",msg);
         CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
         log.info("callbackSender UUID: {}" ,correlationData.getId());
-        myRabbitTemplate.convertAndSend("topicExchange", "topic.messages", msg, correlationData);
+        rabbitTemplate.convertAndSend("topicExchange", "topic.messages", msg, correlationData);
     }
 
     //交换机Exchange确认收到了消息
-    @Override
-    public void confirm(CorrelationData correlationData, boolean ack, String cause) {
-        log.info("callbakck confirm:{}", correlationData.getId());
-    }
+//    @Override
+//    public void confirm(CorrelationData correlationData, boolean ack, String cause) {
+//        log.info("callbakck confirm:{}", correlationData.getId());
+//    }
 
 }
