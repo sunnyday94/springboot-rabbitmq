@@ -13,6 +13,7 @@ import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.util.UUID;
 
@@ -26,13 +27,18 @@ import javax.annotation.Resource;
  */
 @Component
 @Slf4j
-public class CallBackSender /*implements RabbitTemplate.ConfirmCallback */{
+public class CallBackSender/* implements RabbitTemplate.ConfirmCallback */{
 
     @Resource
     private RabbitTemplate rabbitTemplate;
 
     public void sendMessage() {
-//        myRabbitTemplate.setConfirmCallback(this);
+//        rabbitTemplate.setConfirmCallback(this);
+        rabbitTemplate.setMandatory(true);
+        rabbitTemplate.setConfirmCallback((correlationData, ack, cause) ->
+                log.info("消息发送成功:correlationData({}),ack({}),cause({})", correlationData, ack, cause));
+        rabbitTemplate.setReturnCallback((message, replyCode, replyText, exchange, routingKey) ->
+                log.info("消息丢失:exchange({}),route({}),replyCode({}),replyText({}),message:{}", exchange, routingKey, replyCode, replyText, message));
         String msg="callbackSender : I am callback sender";
         log.info("CallBackSender:{}",msg);
         CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
