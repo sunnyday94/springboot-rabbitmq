@@ -33,6 +33,9 @@ public class QueueConfig {
     public Queue userQueue(){
         return new Queue("userQueue");
     }
+
+    @Bean
+    public Queue sunnyQueue(){ return new Queue("sunnyQueue");}
     //=========以上是验证direct Exchange的队列================
 
 
@@ -148,6 +151,11 @@ public class QueueConfig {
     @Bean
     public Binding bindingUserDirectExchange(Queue userQueue,DirectExchange directExchange){
         return BindingBuilder.bind(userQueue).to(directExchange).with("userQueue");
+    }
+
+    @Bean
+    public Binding bindingSunnyDirectExchange(Queue sunnyQueue,DirectExchange directExchange){
+        return BindingBuilder.bind(sunnyQueue).to(directExchange).with("sunnyQueue");
     }
 
     //===============以上是交换机绑定队列=============

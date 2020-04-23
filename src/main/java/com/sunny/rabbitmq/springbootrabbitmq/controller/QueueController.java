@@ -44,6 +44,9 @@ public class QueueController {
     @Autowired
     private CallBackSender callBackSender;
 
+    @Autowired
+    private SunnySender sunnySender;
+
     @GetMapping(value="hello")
     public String hello(){
         helloSender1.sendMessage("hello1");
@@ -100,6 +103,20 @@ public class QueueController {
     public String testCallBack(){
         callBackSender.sendMessage();
         return "消息已发送";
+    }
+
+
+    /* *
+     * @Author sunny
+     * @Description  sunnySendMsg
+     * @Date 12:02 2020/4/23
+     * @Param []
+     * @return java.lang.String
+     **/
+    @GetMapping(value="sunnySendMsg")
+    public String sunnySendMsg(){
+        sunnySender.sendMsg();
+        return "sunnySendMsg success!";
     }
 
 }
