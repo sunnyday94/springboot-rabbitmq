@@ -36,7 +36,7 @@ public abstract  class AbstractMQListener<T> implements MQListener<T>{
     //出错次数
     private int errorCount = 0;
 
-    @Autowired(required = false)
+    @Autowired
     private SimpleEmail simpleEmail;
 
     @Value("${mail.to}")
