@@ -8,8 +8,6 @@ package com.sunny.rabbitmq.springbootrabbitmq.service.consumer;
 import com.sunny.rabbitmq.springbootrabbitmq.constants.ConstantsUtils;
 import com.sunny.rabbitmq.springbootrabbitmq.exception.MQListenerException;
 import com.sunny.rabbitmq.springbootrabbitmq.metadata.User;
-import com.sunny.rabbitmq.springbootrabbitmq.service.AbstractMQListener;
-
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
