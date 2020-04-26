@@ -5,6 +5,7 @@
  */
 package com.sunny.rabbitmq.springbootrabbitmq.service.consumer;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sunny.rabbitmq.springbootrabbitmq.constants.ConstantsUtils;
 import com.sunny.rabbitmq.springbootrabbitmq.exception.MQListenerException;
 import com.sunny.rabbitmq.springbootrabbitmq.metadata.User;
@@ -29,7 +30,8 @@ public class SunnyReciver{
 
 
     @RabbitHandler
-    public void listener(User user) throws MQListenerException {
+    public void listener(String msg){
+        User user = JSONObject.parseObject(msg,User.class);
         log.info("SunnySender接收时间:"+ ConstantsUtils.SDF.format(new Date())+"\t发送消息:"+ user);
     }
 }

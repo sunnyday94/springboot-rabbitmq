@@ -38,6 +38,6 @@ public class SunnySender {
         User user = new User();
         user.setUserName("sunny").setPassword("123456");
         log.info("SunnySender发送时间:"+ ConstantsUtils.SDF.format(new Date())+"\t发送消息:"+ user);
-        amqpTemplate.convertAndSend("sunnyQueue",user);
+        amqpTemplate.convertAndSend("sunnyQueue",JSONObject.toJSONString(user));
     }
 }
