@@ -9,13 +9,19 @@
 package com.sunny.rabbitmq.springbootrabbitmq.controller;
 
 import com.sunny.rabbitmq.springbootrabbitmq.service.producer.*;
+
+import org.jboss.logging.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.MessageFormat;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @description
@@ -25,18 +31,21 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping(value="/rabbitmq")
+@Slf4j
 public class QueueController {
 
     //生产者1
     private HelloSender helloSender1;
 
     //构造方法注入
+    @Autowired //该注解在这里可加可不加
     public QueueController(HelloSender helloSender){
+        log.info(MessageFormat.format(">>>>>QueueController构造方法被调用,注入了HelloSender对象:{0}", helloSender));
         this.helloSender1 = helloSender;
     }
 
     //生产者2
-    @Autowired
+    @Autowired  //Marks a constructor, field, setter method or config method as to be autowired by Spring's dependency injection facilities.
     private HelloSender2 helloSender2;
 
     @Autowired
