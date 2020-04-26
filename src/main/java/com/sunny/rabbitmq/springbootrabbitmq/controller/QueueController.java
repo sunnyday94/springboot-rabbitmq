@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+
 /**
  * @description
  * @author sunny
@@ -25,8 +28,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class QueueController {
 
     //生产者1
-    @Autowired
     private HelloSender helloSender1;
+
+    //构造方法注入
+    public QueueController(HelloSender helloSender){
+        this.helloSender1 = helloSender;
+    }
 
     //生产者2
     @Autowired
@@ -44,8 +51,13 @@ public class QueueController {
     @Autowired
     private CallBackSender callBackSender;
 
-    @Autowired
     private SunnySender sunnySender;
+
+    //set注入
+    @Autowired
+    public void setSunnySender(SunnySender sunnySender){
+        this.sunnySender = sunnySender;
+    }
 
     @GetMapping(value="hello")
     public String hello(){
